@@ -1,0 +1,370 @@
+<link rel="stylesheet" href="css/countdown.demo.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css"/>
+<!-- <link rel="stylesheet" href="css/knobstyles.css"/> -->
+
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-7">
+      <div class="card  card-status1">
+
+        <div id="all">
+          <div class="top"></div>
+          <div class="bod">
+            <div class="upper">
+              <div class="u1"></div>
+              <div class="u2"></div>
+              <div class="u3"></div>
+              <div class="u4">
+                <table border="0">
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+      
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                </table>
+              </div>
+      
+              <div class="u5"></div>
+      
+            </div>
+      
+            <div class="circle_out"></div>
+            <div class="circle_inn"></div>
+      
+            <div class="box"></div>
+          </div>
+     
+        </div>
+         </div>
+    </div>
+
+    <div class="col-5">
+      <div class="card  card-status2">
+<div class="card-header blur-card ">
+  <div class="float-right">
+    <ul >
+      <li class="d-inline-block"><span><i class="fa fa-tint fa-rounded" aria-hidden="true"></i></span></li>
+           <li class="d-inline-block"><span><i class="fa fa-bolt fa-rounded" aria-hidden="true"></i></span></li>
+           <li class="d-inline-block"><i class="fa fa-shopping-basket fa-rounded" aria-hidden="true"></i></li>
+            <li class="d-inline-block"><i class="fa fa-bell fa-rounded" aria-hidden="true"></i></li>
+    </ul>
+  </div>
+  </div>
+
+<div id="content">
+  <!-- Human readable duration -->
+    <h1 class="alt-1">4h 18m 3s</h1>
+ </div>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="row">
+      <div class="col-12 theme-color">
+        <div class="card card-stats2">
+          <div class="row p-3 font-16">
+         
+         <div class="col-4"><div class="card text-center card-stats1">
+          <ul><li>
+         <i class="fa fa-refresh" aria-hidden="true"></i></li>
+         <li><p>Spin Speed</p></li>
+         <li><button class="i-circle"><i class="fa fa-caret-up" aria-hidden="true"></i></button></li> 
+          <li><p class="pt-3">High</p>
+           <!-- <div class="slick-content">
+          <div class="slider-vertical">
+            <div><h3>1</h3></div>
+            <div><h3>2</h3></div>
+            <div><h3>3</h3></div>
+                     </div>  
+                    </div> -->
+         </li>
+         <li><button class="i-circle"><i class="fa fa-caret-down" aria-hidden="true"></i></button></li>
+       </ul>
+        </div></div>
+        <div class="col-4"><div class="card text-center card-stats1">
+          <ul><li>
+            <i class="fa fa-thermometer-half" aria-hidden="true"></i></li>
+         <li><p>temperature</p></li>
+         <li><button class="i-circle"><i class="fa fa-caret-up" aria-hidden="true"></i></button></li>
+         <li><p class="pt-3">Hot</p></li>
+         <li><button class="i-circle"><i class="fa fa-caret-down" aria-hidden="true"></i></button></li>
+       </ul>
+        </div></div>
+        <div class="col-4"><div class="card text-center card-stats1">
+          <ul><li>
+            <i class="fa fa-shopping-basket"  aria-hidden="true"></i>
+          </li>
+         <li><p >Load Size</p></li>
+         <li><button id="textchange" class="i-circle"><i class="fa fa-caret-up" aria-hidden="true"></button></i></li>
+         <li><p class="pt-3" id="txt-changed">Large</p></li>
+         <li><button id="textchange1" class="i-circle"><i class="fa fa-caret-down" aria-hidden="true"></button></i></li>
+       </ul>
+        </div></div>
+        </div>
+       </div>
+             
+      </div>
+  
+    </div>
+
+    <div class="row pl-2">
+      <div class="col-4">
+        <div class="card card-stats">
+          <div class="card-header theme-color">Energy Consumption</div>
+         
+          <div id="energy" style="width:100%;height:100%;" style="margin-left:3px"></div>
+             </div>
+                       
+        </div>
+      
+     
+      
+      <div class="col-4">
+        <div class="card card-stats">
+          <div class="card-header theme-color">Temperature</div>
+         
+          <div id="chart6" style="width:100%;height:100%;"></div>
+       
+      </div>
+      </div>
+      <div class="col-4">
+        <div class="card card-stats">
+          <div class="card-header theme-color">Load Size</div>
+          <div style="margin-top: 20%;">
+          <input  type="text" class="js-range-slider"  name="my_range" value="" />
+        </div>
+        </div>
+      </div>
+              
+      </div> 
+
+</div>
+
+<script src="js/jquery.countdown.js"></script>
+<script src="js/rangeslider.js"></script>
+
+<!-- <script src="js/snapshot.js"></script> -->
+
+<script>
+
+//countdown 
+    $('.alt-1').countDown({
+        css_class: 'countdown-alt-1'
+    });
+
+//range slider
+    $(".js-range-slider").ionRangeSlider();
+
+//echart
+speedChart();
+    function speedChart() {
+    var speedchart= echarts.init(document.getElementById('chart6'));
+    option = {
+    series: [{
+        type: 'gauge',
+        startAngle: 180,
+        endAngle: 0,
+        min: 0,
+        max: 1,
+        splitNumber: 1,
+        grid:{
+          top:'35%'
+        },
+        axisLine: {
+            lineStyle: {
+                width: 6,
+                color: [
+                    [0.25, '#FF6E76'],
+                    [0.5, '#FDDD60'],
+                    [0.75, '#58D9F9'],
+                    [1, '#7CFFB2']
+                ]
+            }
+        },
+        pointer: {
+            icon: 'path://M12.8,0.7l12,40.1H0.7L12.8,0.7z',
+            length: '10%',
+            width: 10,
+            offsetCenter: [0, '-30%'],
+            itemStyle: {
+                color: 'auto'
+            }
+        },
+        axisTick: {
+            length: 12,
+            lineStyle: {
+                color: 'auto',
+                width: 2
+            }
+        },
+        splitLine: {
+            length: 1,
+            lineStyle: {
+                color: 'auto',
+                width: 5
+            }
+        },
+        axisLabel: {
+            color: '#464646',
+            fontSize: 20,
+            distance: -60,
+            formatter: function (value) {
+                if (value === 0.875) {
+                    return '优';
+                }
+                else if (value === 0.625) {
+                    return '中';
+                }
+                else if (value === 0.375) {
+                    return '良';
+                }
+                else if (value === 0.125) {
+                    return '差';
+                }
+            }
+        },
+        title: {
+            offsetCenter: [0, '-20%'],
+            fontSize: 30
+        },
+        detail: {
+            fontSize: 15,
+            offsetCenter: [0, '0%'],
+            valueAnimation: true,
+            formatter: function (value) {
+                return Math.round(value * 100) + 'c';
+            },
+            color: 'auto'
+        },
+        data: [{
+            value: 0.30,
+            // name: 'hot'
+           
+        }]
+    }]
+  };
+
+speedchart.setOption(option, true);
+    }
+
+
+var energy=echarts.init(document.getElementById('energy'));
+    option = {
+    
+    // grid:{
+    //   backgroundColor:'red',
+    //   show:true
+    // },
+    xAxis: {
+        type: 'category',
+        boundaryGap: true,
+        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        show:true,
+        splitLine:{//remove grid lines
+			show:false
+		},splitArea : {show : false}
+    },
+    yAxis: {
+        type: 'value',
+        show:true,
+        splitLine:{//remove grid lines
+			show:false
+		},
+                 splitArea : {show : false}// remove the grid area
+
+    },
+    series: [{
+        data: [82, 93, 90, 93, 130, 130, 120],
+        type: 'line',
+        areaStyle: {},
+        itemStyle: {normal: {color: 'pink'}},
+    }]
+};
+energy.setOption(option, true);
+
+$("#textchange").click(function(){
+  $("#txt-changed").each(function(){
+   alert("hello")
+  }
+  );
+  
+})
+
+
+var slickCarousel = $('.slider-vertical');
+slickCarousel.slick({
+    dots: true,
+    infinite: false,
+    speed: 300,
+    slidesToShow: 3,
+    slidesToScroll: 3,
+    vertical: true,
+    verticalSwiping: true,
+    dots: false,
+    centerPadding: '1px',
+    arrows: true,
+    prevArrow: '<button type="button" data-role="none" class="slick-prev" aria-label="Previous" tabindex="0" role="button">Previous</button>',
+    nextArrow: '<button type="button" data-role="none" class="slick-next" aria-label="Next" tabindex="0" role="button">Next</button>',
+    responsive: [{
+            breakpoint: 1024,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                infinite: true,
+            }
+        }, {
+            breakpoint: 639,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1,
+			    vertical: false,
+			    verticalSwiping: false,
+            }
+        }
+        // You can unslick at a given breakpoint now by adding:
+        // settings: "unslick"
+        // instead of a settings object
+    ]
+});
+
+
+//mouse wheel
+slickCarousel.mousewheel(function(e) {
+e.preventDefault();
+    if (e.deltaY < 0) {
+        $(this).slick('slickNext'); 
+    }
+    else {
+        $(this).slick('slickPrev');
+    }
+});
+
+
+</script> 
+
+
