@@ -4,8 +4,8 @@ $(document).ready(function () {
     loadUserChart(),
         loadIncomeChart(),
         loadTaxChart(),
-        loadSalesAnalysis(),
-        toggleIcon()
+        loadSalesAnalysis()
+        // toggleIcon()
 
 })
 function loadSalesChart() {
@@ -989,9 +989,9 @@ function loadSalesAnalysis() {
     
 // }
     
-function toggleSlider(){
-    document.getElementById("leftmenu").classList.toggle("active");
-}
+// function toggleSlider(){
+//     document.getElementById("leftmenu").classList.toggle("active");
+// }
 
 
 

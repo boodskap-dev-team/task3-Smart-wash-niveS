@@ -4,6 +4,9 @@ var Commons = require("../modules/common");
 var Tables = require("../modules/tables");
 
 var Student = require("../modules/student");
+// var Asset = require("../modules/asset");
+// var History = require("../modules/history");
+// var Status = require("../modules/status");
 
 
 
@@ -17,6 +20,10 @@ var APIRoutes = function (app,router) {
     this.common = new Commons(app);
     this.table = new Tables(app);
     this.student = new Student(app);
+
+    // this.history = new History(app);
+    // this.status = new Status(app);
+    // this.asset = new Asset(app);
 
 
 
@@ -63,8 +70,20 @@ APIRoutes.prototype.init = function () {
     self.router.post('/student/:action', sessionCheck, function (req, res) {
         self.student.performAction(req,res);
     });
+ 
+    // self.router.post('/status/:action', sessionCheck, function (req, res) {
+    //     self.status.performAction(req,res);
+    // });
+ 
+    // self.router.post('/asset/:action', sessionCheck, function (req, res) {
+    //     self.asset.performAction(req,res);
+    // });
+ 
+    // self.router.post('/history/:action', sessionCheck, function (req, res) {
+    //     self.history.performAction(req,res);
+    // });
+ 
 
-   
 
     self.app.use(self.app.conf.web.basepath,self.router);
 

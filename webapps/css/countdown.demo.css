@@ -4,7 +4,7 @@ body {
 }
 
 #content {
-    width: 90%;
+    width: 100%;
     margin: 0 auto 100px auto;
     text-align:center
 }
@@ -70,8 +70,10 @@ body {
 .countdown-alt-1 {
     display: block;
     font-size: 0;  /* Hack for inline and inline-block extra markup generated spaces */
-    margin: 100px 0;
-    color: #fff;
+    margin: 10px 0;
+    color:rgb(92, 74, 173); 
+    
+
 }
 .countdown-alt-1 .item {
     position: relative;

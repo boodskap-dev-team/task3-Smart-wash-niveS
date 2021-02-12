@@ -1,142 +1,365 @@
 <link rel="stylesheet" href="css/countdown.demo.css"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css"/>
 <!-- <link rel="stylesheet" href="css/knobstyles.css"/> -->
-
+<link rel="stylesheet" href="css/overlay.css">
+<link rel="stylesheet" href="css/circle-progress.css">
+<!-- <script src="js/snapshot.js"></script> -->
 
 <div class="container-fluid">
-  <div class="row">
-    <div class="col-7">
-      <div class="card  card-status1">
+ 
+<div class="row">
+  <div class="col-8">
+<div class="row">
+<div class="col-6">
+  <!-- play button -->
+<div class="row">
+  <div class="card  card-status1 rounded">
+    <div class="text-center control-align">
+    <button class="control-button new-bg-theme" onclick="powerOn()" id="poweron">
+    
+     <i class="fa fa-power-off fa-4x new-theme" aria-hidden="true" id="power-icon"></i> 
+    </button>
+    <button class="control-button1 new-bg-theme" id="pause_btn" onclick="pause()" >
+    <ul class="pl-0"><li class="d-inline-block pl-0">
+      <span>
+      <i class="fa fa-pause fa-4x new-theme" aria-hidden="true"></i>
+    </span></li> 
+            </ul>
+    </button>
 
-        <div id="all">
-          <div class="top"></div>
-          <div class="bod">
-            <div class="upper">
-              <div class="u1"></div>
-              <div class="u2"></div>
-              <div class="u3"></div>
-              <div class="u4">
-                <table border="0">
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-      
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                </table>
-              </div>
-      
-              <div class="u5"></div>
-      
-            </div>
-      
-            <div class="circle_out"></div>
-            <div class="circle_inn"></div>
-      
-            <div class="box"></div>
-          </div>
-     
-        </div>
-         </div>
+    <button class="control-button1 new-bg-theme" id="play_btn" onclick="play()" >
+      <ul class="pl-0"><li class="d-inline-block pl-0">
+        <span>
+        <i class="fa fa-play fa-4x new-theme" aria-hidden="true"></i>
+      </span></li> 
+              </ul>
+      </button>
+    
     </div>
+           
+             </div>
 
-    <div class="col-5">
-      <div class="card  card-status2">
-<div class="card-header blur-card ">
+</div>
+<div class="row">
+<!-- //timer -->
+<div class="card card-status2 rounded">
+  <div class="card-header new-bg-theme" style="height: 46px;">
+  <span class="header-round">Time Left Out</span>
   <div class="float-right">
-    <ul >
-      <li class="d-inline-block"><span><i class="fa fa-tint fa-rounded" aria-hidden="true"></i></span></li>
-           <li class="d-inline-block"><span><i class="fa fa-bolt fa-rounded" aria-hidden="true"></i></span></li>
-           <li class="d-inline-block"><i class="fa fa-shopping-basket fa-rounded" aria-hidden="true"></i></li>
-            <li class="d-inline-block"><i class="fa fa-bell fa-rounded" aria-hidden="true"></i></li>
-    </ul>
-  </div>
-  </div>
-
-<div id="content">
-  <!-- Human readable duration -->
-    <h1 class="alt-1">4h 18m 3s</h1>
- </div>
-          </ul>
-        </div>
-      </div>
+        <li class="d-inline-block"><span><i class="fa fa-clock-o fa-rounded" aria-hidden="true"></i></span></li>
     </div>
-
-
-
-    <div class="row">
-      <div class="col-12 theme-color">
-        <div class="card card-stats2">
-          <div class="row p-3 font-16">
-         
-         <div class="col-4"><div class="card text-center card-stats1">
-          <ul><li>
-         <i class="fa fa-refresh" aria-hidden="true"></i></li>
-         <li><p>Spin Speed</p></li>
-         <li><button class="i-circle"><i class="fa fa-caret-up" aria-hidden="true"></i></button></li> 
-          <li><p class="pt-3">High</p>
-           <!-- <div class="slick-content">
-          <div class="slider-vertical">
-            <div><h3>1</h3></div>
-            <div><h3>2</h3></div>
-            <div><h3>3</h3></div>
-                     </div>  
-                    </div> -->
-         </li>
-         <li><button class="i-circle"><i class="fa fa-caret-down" aria-hidden="true"></i></button></li>
-       </ul>
-        </div></div>
-        <div class="col-4"><div class="card text-center card-stats1">
-          <ul><li>
-            <i class="fa fa-thermometer-half" aria-hidden="true"></i></li>
-         <li><p>temperature</p></li>
-         <li><button class="i-circle"><i class="fa fa-caret-up" aria-hidden="true"></i></button></li>
-         <li><p class="pt-3">Hot</p></li>
-         <li><button class="i-circle"><i class="fa fa-caret-down" aria-hidden="true"></i></button></li>
-       </ul>
-        </div></div>
-        <div class="col-4"><div class="card text-center card-stats1">
-          <ul><li>
-            <i class="fa fa-shopping-basket"  aria-hidden="true"></i>
-          </li>
-         <li><p >Load Size</p></li>
-         <li><button id="textchange" class="i-circle"><i class="fa fa-caret-up" aria-hidden="true"></button></i></li>
-         <li><p class="pt-3" id="txt-changed">Large</p></li>
-         <li><button id="textchange1" class="i-circle"><i class="fa fa-caret-down" aria-hidden="true"></button></i></li>
-       </ul>
-        </div></div>
-        </div>
-       </div>
-             
-      </div>
+  </div>
   
-    </div>
+  <div id="content">
+  <!-- Human readable duration -->
+    <h1 class="alt-1 timer-text">0h 18m 3s</h1>
+  </div>   
+  
+      </div>
+</div>
+</div>
+<div class="col-6">
+<!-- //progress -->
+<div class="card ml-2 rounded" style="height:444px">
+        
+  <div class="card-header new-bg-theme">
+    <span class="header-round">Status</span>
+ <div class="float-right">
+  <li class="d-inline-block"><span><i class="fa fa-line-chart fa-rounded" aria-hidden="true"></i></span></li>
+ </div>
+  </div>
 
-    <div class="row pl-2">
-      <div class="col-4">
+<p class="status-progress2 text-center mt-5">Now Draining!</p> 
+<br><br>        
+  <div class="progress-circle p40">
+    <span>40%</span>
+    <div class="left-half-clipper">
+       <div class="first50-bar"></div>
+       <div class="value-bar"></div>
+    </div>
+ </div>
+
+
+
+
+</div>
+</div>
+</div>
+<div class="row">
+<!-- //status -->
+<div class="card card-stats rounded ml-0 mr-2" style="height:193px">
+  
+    <div class="float-right mt-3">
+    <ul style="margin-left:400px;" >
+      <li class="d-inline-block  mt-4 pt-0 ">
+    <span style="width:50%" class="float-right">
+      <select name="Fabric" id="Fabric">
+        <option value="Cotton">Cotton</option>
+        <option value="Wool">Wool</option>
+        <option value="Synthetic">Synthetic</option>
+        <option value="Linen">Linen</option>
+        <option value="Polyster">Polyster</option>
+        <option value="Silk">Silk</option>
+        <option value="Velvet">Velvet</option>
+      </select>
+    </span>
+  </li>
+  <li class="d-inline-block  mt-3 pt-0">  
+    <span style="width:50%" class="float-right">
+      <select name="Stain" id="Stain">
+        <option value="Oil/Grease">Oil/Grease</option>
+        <option value="Organic">Organic</option>
+        <option value="Coffee/tea">Coffee/tea</option>
+        <option value="Vinegar">Vinegar</option>
+      </select>
+    </span>
+  </li>
+  </ul>
+  <!-- </div> -->
+  <div>
+  <table class="table table-light table-bg">
+    <thead class="new-bg-theme text-white">
+      <tr>
+        <th scope="col">Cloth Type</th>
+            <th scope="col">Strain type</th>
+        <th scope="col">Wash Count</th>
+       
+      </tr>
+    </thead>
+    <tbody >
+      <tr>
+        <th scope="row">Linen</th>
+        <td>oil/grease</td>
+        <td>15</td>
+        
+      </tr>
+     
+    
+    </tbody>
+  </table>
+  </div>
+  
+  </div>
+
+</div>
+</div>
+  </div>
+
+  <div class="col-4">
+<!-- //table -->
+<table class="table table-light table-bg" id="myTable">
+  <thead class="new-bg-theme text-white">
+    <tr>
+      <th scope="col">Cloth Type</th>
+    
+      <th scope="col">Process</th>
+      <th scope="col">Start Time</th>
+      <th scope="col">End Time</th>
+    </tr>
+  </thead>
+  <tbody >
+    <tr>
+      <th scope="row">Cotton</th>
+
+      <td>Start</td>
+      <td>01:23:45</td>
+      <td>01:23:50</td>
+    </tr>
+    <tr>
+      <th scope="row">Cotton</th>
+  
+      <td>Fill</td>
+      <td>01:23:50</td>
+      <td>01:27:50</td>
+    </tr>
+    <tr>
+      <th scope="row">Cotton</th>
+     
+      <td>Spin</td>
+      <td>01:27:50</td>
+      <td>01:47:50</td>
+    </tr>
+    <tr>
+      <th scope="row">Cotton</th>
+   
+      <td>Drain</td>
+      <td>01:47:50</td>
+      <td>02:57:50</td>
+    </tr>
+    <tr>
+      <th scope="row">Cotton</th>
+     
+      <td>Refill</td>
+      <td>02:57:50</td>
+      <td>03:07:50</td>
+    </tr>
+    <tr>
+      <th scope="row">Cotton</th>
+ 
+      <td>Spin</td>
+      <td>03:07:50</td>
+      <td>03:27:50</td>
+    </tr>
+    <tr>
+      <th scope="row">Cotton</th>
+   
+      <td>Drain</td>
+      <td>03:27:50</td>
+      <td>03:37:50</td>
+    </tr>
+    <tr>
+      <th scope="row">Cotton</th>
+   
+      <td>Stop</td>
+      <td>03:37:50</td>
+      <td>03:37:50</td>
+    </tr>
+    <tr>
+      <th scope="row">Linen</th>
+   
+      <td>Start</td>
+      <td>10:30:50</td>
+      <td>10:30:55</td>
+    </tr>
+    <tr>
+      <th scope="row">Linen</th>
+   
+      <td>Fill</td>
+      <td>10:30:55</td>
+      <td>10:40:55</td>
+    </tr>
+    <tr>
+      <th scope="row">Linen</th>
+   
+      <td>Spin</td>
+      <td>10:40:55</td>
+      <td>11:10:55</td>
+    </tr>
+  </tbody>
+</table>
+  </div>
+
+</div>
+
+<!-- ============================================================================ -->
+     
+  
+<!-- ==================================================================================== -->
+<!-- <div class="row">
+  <div class="col-4 pl-0">
+    <div class="card">
+      <div class="card-header new-bg-theme" style="height: 110px;">
+      <span class="header-round1" style="height: 110px;">
+        <ul><li class="d-inline-block">
+         <i class="fa fa-check-square-o step"aria-hidden="true"></i></li>
+        <li class="d-inline-block"><p>Quick Wash</p></li></ul>
+     
+       <ul><li class="d-inline-block">
+         <i class="fa fa-check-square-o step"aria-hidden="true"></i></li>
+        <li class="d-inline-block"><p>Bubble soak</p></li></ul>
+
+        
+     </span>
+    </div>
+    </div>
+   </div>
+
+  <div class="col-8">
+    <div class="card">
+    -->
+<!-- ========= -->
+<!-- <section>
+  <div class="wizard">
+      <div class="wizard-inner">
+          <div class="connecting-line"></div>
+          <ul class="nav nav-tabs" role="tablist">
+
+              <li role="presentation" class="active">
+                  <a href="#step1" data-toggle="tab" aria-controls="step1" role="tab" title="Step 1">
+                      <span class="round-tab">
+                          <i class="glyphicon glyphicon-folder-open"></i>
+                      </span>
+                  </a>
+              </li>
+
+              <li role="presentation" class="disabled">
+                  <a href="#step2" data-toggle="tab" aria-controls="step2" role="tab" title="Step 2">
+                      <span class="round-tab">
+                          <i class="glyphicon glyphicon-pencil"></i>
+                      </span>
+                  </a>
+              </li>
+              <li role="presentation" class="disabled">
+                  <a href="#step3" data-toggle="tab" aria-controls="step3" role="tab" title="Step 3">
+                      <span class="round-tab">
+                          <i class="glyphicon glyphicon-picture"></i>
+                      </span>
+                  </a>
+              </li>
+
+              <li role="presentation" class="disabled">
+                  <a href="#complete" data-toggle="tab" aria-controls="complete" role="tab" title="Complete">
+                      <span class="round-tab">
+                          <i class="glyphicon glyphicon-ok"></i>
+                      </span>
+                  </a>
+              </li>
+          </ul>
+      </div>
+
+      <form role="form">
+          <div class="tab-content">
+              <div class="tab-pane active" role="tabpanel" id="step1">
+                  <h3>Step 1</h3>
+                  <p>This is step 1</p>
+                  <ul class="list-inline pull-right">
+                      <li><button type="button" class="btn btn-primary next-step">Save and continue</button></li>
+                  </ul>
+              </div>
+              <div class="tab-pane" role="tabpanel" id="step2">
+                  <h3>Step 2</h3>
+                  <p>This is step 2</p>
+                  <ul class="list-inline pull-right">
+                      <li><button type="button" class="btn btn-default prev-step">Previous</button></li>
+                      <li><button type="button" class="btn btn-primary next-step">Save and continue</button></li>
+                  </ul>
+              </div>
+              <div class="tab-pane" role="tabpanel" id="step3">
+                  <h3>Step 3</h3>
+                  <p>This is step 3</p>
+                  <ul class="list-inline pull-right">
+                      <li><button type="button" class="btn btn-default prev-step">Previous</button></li>
+                      <li><button type="button" class="btn btn-default next-step">Skip</button></li>
+                      <li><button type="button" class="btn btn-primary btn-info-full next-step">Save and continue</button></li>
+                  </ul>
+              </div>
+              <div class="tab-pane" role="tabpanel" id="complete">
+                  <h3>Complete</h3>
+                  <p>You have successfully completed all steps.</p>
+              </div>
+              <div class="clearfix"></div>
+          </div>
+      </form>
+  </div>
+</section> -->
+
+      <!-- ======== -->
+  <!-- </div>
+</div>
+
+</div> -->
+
+
+<!-- ========================== level charts =========================================================== -->
+    <div class="row">
+      <div class="col-4 pl-0">
         <div class="card card-stats">
-          <div class="card-header theme-color">Energy Consumption</div>
-         
+          <div class="card-header new-bg-theme">
+            <span class="header-round">Energy Consumption</span>
+         <div class="float-right">
+          <li class="d-inline-block"><span><i class="fa fa-bolt fa-rounded" aria-hidden="true"></i></span></li>
+         </div>
+          </div>
           <div id="energy" style="width:100%;height:100%;" style="margin-left:3px"></div>
              </div>
                        
@@ -146,7 +369,12 @@
       
       <div class="col-4">
         <div class="card card-stats">
-          <div class="card-header theme-color">Temperature</div>
+          <div class="card-header new-bg-theme">
+            <span class="header-round">Temperature</span>
+            <div class="float-right">
+              <li class="d-inline-block"><span><i class="fa fa-thermometer-half fa-rounded" aria-hidden="true"></i></span></li>
+             </div>
+          </div>
          
           <div id="chart6" style="width:100%;height:100%;"></div>
        
@@ -154,7 +382,12 @@
       </div>
       <div class="col-4">
         <div class="card card-stats">
-          <div class="card-header theme-color">Load Size</div>
+          <div class="card-header new-bg-theme">
+            <span class="header-round"> Size</span>
+            <div class="float-right">
+              <li class="d-inline-block"><span><i class="fa fa-shopping-basket fa-rounded" aria-hidden="true"></i></span></li>
+             </div>
+          </div>
           <div style="margin-top: 20%;">
           <input  type="text" class="js-range-slider"  name="my_range" value="" />
         </div>
@@ -165,23 +398,26 @@
 
 </div>
 
+
+
+
+
+
+<script src="js/overlay.js"></script>
+   
 <script src="js/jquery.countdown.js"></script>
 <script src="js/rangeslider.js"></script>
-
-<!-- <script src="js/snapshot.js"></script> -->
-
+<script src="js/snapshot.js"></script>
 <script>
-
-//countdown 
-    $('.alt-1').countDown({
-        css_class: 'countdown-alt-1'
-    });
+  //countdown 
+  
 
 //range slider
     $(".js-range-slider").ionRangeSlider();
 
 //echart
-speedChart();
+
+ speedChart();
     function speedChart() {
     var speedchart= echarts.init(document.getElementById('chart6'));
     option = {
@@ -273,6 +509,9 @@ speedchart.setOption(option, true);
     }
 
 
+ 
+    tempChart();
+    function tempChart() {   
 var energy=echarts.init(document.getElementById('energy'));
     option = {
     
@@ -306,63 +545,125 @@ var energy=echarts.init(document.getElementById('energy'));
     }]
 };
 energy.setOption(option, true);
+    }
 
-$("#textchange").click(function(){
-  $("#txt-changed").each(function(){
-   alert("hello")
-  }
-  );
+//progress bar
+
+//timeout
+$("#poweron").click(function powerOn(){
+  $(this).show(function(){
+
+    $('.alt-1').countDown({
+        css_class: 'countdown-alt-1'
+    });
+   
+   $("#power-icon").css('background','-webkit-linear-gradient(white,white)').css('-webkit-background-clip','text').css('-webkit-text-fill-color','transparent');
+  });
+
+ 
+ 
+})
   
+$("#pause_btn").click(function pause(){
+  $(this).hide();
+  $("#play_btn").show();
+})
+$("#play_btn").click(function play(){
+  $(this).hide();
+  $("#pause_btn").show();
 })
 
 
-var slickCarousel = $('.slider-vertical');
-slickCarousel.slick({
-    dots: true,
-    infinite: false,
-    speed: 300,
-    slidesToShow: 3,
-    slidesToScroll: 3,
-    vertical: true,
-    verticalSwiping: true,
-    dots: false,
-    centerPadding: '1px',
-    arrows: true,
-    prevArrow: '<button type="button" data-role="none" class="slick-prev" aria-label="Previous" tabindex="0" role="button">Previous</button>',
-    nextArrow: '<button type="button" data-role="none" class="slick-next" aria-label="Next" tabindex="0" role="button">Next</button>',
-    responsive: [{
-            breakpoint: 1024,
-            settings: {
-                slidesToShow: 1,
-                slidesToScroll: 1,
-                infinite: true,
-            }
-        }, {
-            breakpoint: 639,
-            settings: {
-                slidesToShow: 1,
-                slidesToScroll: 1,
-			    vertical: false,
-			    verticalSwiping: false,
-            }
+//step progess bar
+$(document).ready(function () {
+    //Initialize tooltips
+    $('.nav-tabs > li a[title]').tooltip();
+    
+    //Wizard
+    $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+
+        var $target = $(e.target);
+    
+        if ($target.parent().hasClass('disabled')) {
+            return false;
         }
-        // You can unslick at a given breakpoint now by adding:
-        // settings: "unslick"
-        // instead of a settings object
-    ]
+    });
+
+    $(".next-step").click(function (e) {
+
+        var $active = $('.wizard .nav-tabs li.active');
+        $active.next().removeClass('disabled');
+        nextTab($active);
+
+    });
+    $(".prev-step").click(function (e) {
+
+        var $active = $('.wizard .nav-tabs li.active');
+        prevTab($active);
+
+    });
 });
 
+function nextTab(elem) {
+    $(elem).next().find('a[data-toggle="tab"]').click();
+}
+function prevTab(elem) {
+    $(elem).prev().find('a[data-toggle="tab"]').click();
+}
+// ==========================================================
 
-//mouse wheel
-slickCarousel.mousewheel(function(e) {
-e.preventDefault();
-    if (e.deltaY < 0) {
-        $(this).slick('slickNext'); 
-    }
-    else {
-        $(this).slick('slickPrev');
-    }
-});
+mqttConnect();
+
+function mqttListen(){
+ 
+mqttSubscribe("/XLOYLUDCHY/log/mrule/#",0);
+ 
+mqtt_client.onMessageArrived = function(message){
+ 
+var topicName = message.destinationName;
+var parsedData = JSON.parse(message.payloadString);
+if(topicName === "/XLOYLUDCHY/log/mrule/1220"){
+if(parsedData.level === 'info'){
+wash();
+}
+}
+};
+}
+
+function wash(){
+$.ajax({
+url: BASE_PATH+"/status/list",
+contentType: "application/json",
+type: 'POST',
+success: function (data) {
+var resultData = data.result.data.data;
+console.log("resultdata",data);
+ 
+var sl= document.getElementById("sunlight");
+var hm= document.getElementById("humidity");
+
+
+
+sl.innerHTML = resultData[0].sunlight_intensity + " " + "lux";
+hm.innerHTML = resultData[0].humidity + " " + "%";
+
+},
+error: function (e) {
+
+//Error -> Show Error Alert & Reset the form
+errorMsg("integration Failed!");
+
+}
+})
+
+}
+// =================================================
+// datatable
+// $(function () {
+//         $('#myTable').DataTable();
+//     });
+
+
 
 
 </script> 
