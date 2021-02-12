@@ -4,9 +4,9 @@ var Commons = require("../modules/common");
 var Tables = require("../modules/tables");
 
 var Student = require("../modules/student");
-// var Asset = require("../modules/asset");
-// var History = require("../modules/history");
-// var Status = require("../modules/status");
+ var Asset = require("../modules/wash_asset");
+var History = require("../modules/wash_history");
+ var Status = require("../modules/wash_status");
 
 
 
@@ -21,9 +21,9 @@ var APIRoutes = function (app,router) {
     this.table = new Tables(app);
     this.student = new Student(app);
 
-    // this.history = new History(app);
-    // this.status = new Status(app);
-    // this.asset = new Asset(app);
+    this.wash_history = new History(app);
+    this.status = new Status(app);
+    this.asset = new Asset(app);
 
 
 
@@ -71,17 +71,17 @@ APIRoutes.prototype.init = function () {
         self.student.performAction(req,res);
     });
  
-    // self.router.post('/status/:action', sessionCheck, function (req, res) {
-    //     self.status.performAction(req,res);
-    // });
+    self.router.post('/status/:action', sessionCheck, function (req, res) {
+        self.status.performAction(req,res);
+    });
  
-    // self.router.post('/asset/:action', sessionCheck, function (req, res) {
-    //     self.asset.performAction(req,res);
-    // });
+    self.router.post('/asset/:action', sessionCheck, function (req, res) {
+        self.asset.performAction(req,res);
+    });
  
-    // self.router.post('/history/:action', sessionCheck, function (req, res) {
-    //     self.history.performAction(req,res);
-    // });
+    self.router.post('/history/:action', sessionCheck, function (req, res) {
+        self.wash_history.performAction(req,res);
+    });
  
 
 

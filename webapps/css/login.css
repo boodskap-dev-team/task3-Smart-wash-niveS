@@ -1,12 +1,14 @@
 body{
-    background-color: #f6f6f6  !important;
+    background-image:url("../images/laptop.jpeg") !important;
     background-position: center top;
-    background-size: contain;
+    background-size: cover;
 }
 .cardSection{
     margin: 0px;
     padding: 25px;
-    border: 1px solid #ddd;
+    /* border: 1px solid #ddd; */
+    background-color: transparent;
+    box-shadow: 11px 8px 25px #000000bd;
 }
 .logo{
     height: 60px;
@@ -30,13 +32,20 @@ footer div p{
     padding: 10px;
     margin-bottom: 0px;
 }
+
+.bg-transparent{
+    background-color: transparent;
+}
+
+.box-shadow-none{
+    box-shadow: none;
+}
+
 .form-control {
-border-bottom: 1px solid #dedede !important;
+
 background: #fafafa !important;
-border-top: 0 !important;
-border-left: 0 !important;
-border-right: 0 !important;
-border-radius: 0 !important;
+border: 1px solid #0000004a;
+border-radius: 5px !important;
 }
 .hyberlinkText{
     color: #666666 !important;
@@ -55,7 +64,7 @@ border-radius: 0 !important;
     height: 10px;
 }
 .cardSection .card-body{
-    background: #fffffff0;
+    background: #ffffff9e;
     border-radius: 5px;
 }
 .cardSection {
