@@ -6,53 +6,15 @@ const  uniqueRandomArray=require('unique-random-array');
 const nestedProperty=require('nested-property');
 const random_item=require('random-item');
 var fabric;
+var wash="fill";
+let power=0;
 
-
-var stain=uniqueRandomArray(["oil","grease","organic","muddy","ink","vinegar"]);
-var load=uniqueRandomArray(["min","medium","max"]);
+var stainType=uniqueRandomArray(["oil","grease","organic","muddy","ink","vinegar"]);
+var stain=stainType();
+var capacity=uniqueRandomArray(["min","medium","max"]);
+var load=capacity();
 var energy=random.int(min = 0, max = 100);
-
-console.log(load());
-
-console.log(stain());
-
-if(energy<=30){
-var result="low_consume"
-console.log(result);
-}
-else if((energy>30)&&(energy<=70)){
-   var result="medium_consume";
-  console.log(result);
-}
-else{
-  var result="high_consume";
-  console.log(result);
-}
-
-
-
-options={
-  clientId: "DEV_WASHER_001",
-  username: "DEV_XLOYLUDCHY",
-  password: "7wqaskN4z31b",
-  qos: 2,
-  clean: true
-};
-
-const client = mqtt.connect('mqtt://dev.boodskap.io', options)
-
-topic = '/XLOYLUDCHY/device/WASHER_001/msgs/washer/v.1.0/1220';
-
-
-
-
-client.on('connect', () => {
- 
-
-//npm node schedule
- node_schedular.scheduleJob('*/10 * * * * *', function(){
-   
-  fabric=
+fabric=
   [
     {
       "name":"cotton",
@@ -86,18 +48,139 @@ client.on('connect', () => {
     }
   ]
   var item = fabric[Math.floor(Math.random() * fabric.length)];
+// console.log(load());
+// console.log(stain());
 
+async function addfunction(){
+  process1();
+}
+var count_1=0;
+function process1(){
+
+  let initialFillingCount = 0;
+  const maxFillingCount = 2;
+  const process = setInterval(filling, 1000);
+  function filling(){
+      initialFillingCount++;
+      wash="fill";
+      power=random.int(min=0,max=5);
+      // console.log(`draning for the ${initialFillingCount} time`)
+      
+      if(initialFillingCount === maxFillingCount){
+          clearInterval(process);
+          process2();
+      }
+     
+  }
+ }
+
+
+function process2(){
+  count_1++;
+  
+  let initialFillingCount = 0;
+  const maxFillingCount = 2;
+  const process = setInterval(filling, 1000);
+  function filling(){
+      initialFillingCount++;
+      wash="wash";
+      power=random.int(min=0,max=5);
+      // console.log(`draning for the ${initialFillingCount} time`)
+      if(count_1==2)
+      {
+        wash="rinse";
+      }
+      if(initialFillingCount === maxFillingCount){
+          clearInterval(process);
+          process3();
+      }
+  }
+ }
+
+ var count_2=0;
+ function process3(){
+count_2++;
+  let initialFillingCount = 0;
+  const maxFillingCount = 2;
+  const process = setInterval(filling, 1000);
+  function filling(){
+      initialFillingCount++;
+      wash="drain";
+      power=random.int(min=0,max=5);
+      // console.log(`draning for the ${initialFillingCount} time`)
+      if(initialFillingCount === maxFillingCount){
+          clearInterval(process);
+      
+          process1();
+      }
+      if(count_2==2)
+      {
+       process4();
+      }
+      
+  }
+ }
+
+ function process4(){
+
+  let initialFillingCount = 0;
+  const maxFillingCount = 1;
+  const process = setInterval(filling, 1000);
+  function filling(){
+      initialFillingCount++;
+      wash="wash completed!!";
+      power=random.int(min=0,max=5);
+      // console.log(`draning for the ${initialFillingCount} time`)
+      if(initialFillingCount === maxFillingCount){
+          clearInterval(process)
+      }
+  }
+ }
+
+addfunction();
+
+options={
+  clientId: "DEV_WASHER_001",
+  username: "DEV_XLOYLUDCHY",
+  password: "7wqaskN4z31b",
+  qos: 2,
+  clean: true
+};
+
+const client = mqtt.connect('mqtt://dev.boodskap.io', options)
+
+topic = '/XLOYLUDCHY/device/WASHER_001/msgs/washer/v.1.0/1220';
+
+
+var i=0;
+var node;
+
+client.on('connect', () => {
+ 
+
+//npm node schedule
+ node=node_schedular.scheduleJob('*/1 * * * * *', function(){
+   
+  i++;
 payload = {
   "temp":item.temp,
-  "load_size":load(),
-  "energy_consumption":random.int(min = 0, max = 100),
+  "load_size":load,
+  "energy_consumption":energy,
   "cloth_type":item.name,
-  "process":"drain",
-  "stain_type":stain(),
-  "started_time":	1612937636665,
-  "ended_time":1612937636670
+  "process":wash,
+  "stain_type":stain,
+  "power":power
+  // "started_time":	1612937636665,
+  // "ended_time":1612937636670
 }
+console.log("schedule count",i);
 console.log("payload",payload);
 client.publish(topic, JSON.stringify(payload));
+if(i==13){
+  node.cancel();
+  }
+
+
   });
+  
 })
