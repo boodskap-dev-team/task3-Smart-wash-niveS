@@ -92,10 +92,10 @@
 <div class="card card-stats rounded ml-0 mr-2" style="height:193px">
   
     <div class="float-right mt-3">
-    <ul style="margin-left:400px;" >
-      <li class="d-inline-block  mt-4 pt-0 ">
-    <span style="width:50%" class="float-right">
-      <select name="Fabric" id="Fabric">
+    <ul style="margin-left:340px;" >
+      <li class="d-inline-block">
+    <span class="float-right">
+      <select class="select-box" name="Fabric" id="Fabric">
         <option value="Cotton">Cotton</option>
         <option value="Wool">Wool</option>
         <option value="Synthetic">Synthetic</option>
@@ -108,7 +108,7 @@
   </li>
   <li class="d-inline-block  mt-3 pt-0">  
     <span style="width:50%" class="float-right">
-      <select name="Stain" id="Stain">
+      <select class="select-box" name="Stain" id="Stain">
         <option value="Oil/Grease">Oil/Grease</option>
         <option value="Organic">Organic</option>
         <option value="Coffee/tea">Coffee/tea</option>
@@ -149,8 +149,8 @@
 
   <div class="col-4">
 <!-- //table -->
-<table class="table table-light table-bg" id="myTable">
-  <thead class="new-bg-theme text-white">
+<table class="table table-light table-bg" id="wash_table">
+  <thead class="new-bg-theme text-white text-white">
     <tr>
       <th scope="col">Cloth Type</th>
     
@@ -230,13 +230,13 @@
       <td>10:30:55</td>
       <td>10:40:55</td>
     </tr>
-    <tr>
+    <!-- <tr>
       <th scope="row">Linen</th>
    
       <td>Spin</td>
       <td>10:40:55</td>
       <td>11:10:55</td>
-    </tr>
+    </tr> -->
   </tbody>
 </table>
   </div>
@@ -303,10 +303,15 @@
 <!-- ========================= script   ====================================== -->
 
 <script src="js/overlay.js"></script>
-   
+<script src="plugins/datatables.min.js"></script>  
 <script src="js/jquery.countdown.js"></script>
 <script src="js/rangeslider.js"></script>
 <script src="js/snapshot.js"></script>
+<script>
+  $(document).ready( function () {
+    $('#wash_table').DataTable();
+} );
+</script>
 
 
 
