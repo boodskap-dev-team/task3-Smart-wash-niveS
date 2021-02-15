@@ -1,9 +1,12 @@
-  $(document).ready(function(){
+var consume=[];  
+
+$(document).ready(function(){
     console.log("ready")
 loadAllFunction();
   mqttConnect();
    })
-   
+   var temp;
+var energy;
   function loadAllFunction(){
    // speedChart();
    // tempChart();
@@ -34,55 +37,89 @@ loadAllFunction();
  
  function loadStatusList(){
  var queryParams1={     
-      "query":{
-       "bool":{
-          "filter":[
-             {
-                "term":{
-                   "energy_consumption":"high_consume"
-                }
-             }
-          ]
-       }
-    }
+      
+    "aggregation":{
+    "energy":{
+        "terms":{
+            "field":"temp"
+        }
+    }
+}
+    
    }
-//    var queryParams2={     
-//      "query":{
-//       "bool":{
-//          "filter":[
-//             {
-//                "term":{
-//                   "temp":"high"
-//                }
-//             }
-//          ]
-//       }
-//    }
-//   }
+  var queryParams2={
+             
+    "aggregations": {
+       "energy": {
+          "terms": {
+             "field": "energy_consumption"
+          }
+       }
+    }
+ }
+
+//first ajax call
     $.ajax({
              "dataType":'json',
              "contentType": "application/json",
              "type": "POST",
-             "url": BASE_PATH + "/history/list",
+             "url": BASE_PATH + "/status/list",
              "data":JSON.stringify({queryParams1}),
              success: function(data) {
-    if(data.status){
-         console.log(data);
-                         speedChart();
-    }else{
-
-    }
-              
+     console.log(data);
+//     if(data.status){
+//         //  console.log(data);
+//         var temp=data.result.data.data[0].temp;
+//        console.log("temp",temp);
+//                          tempChart();
+//     }
+//             
+ temp=data.result.data.data[0].temp;  
+ console.log(temp);
+ tempChart();
                    },
                    error:function(err){
                      errorMsg("Something went wrong");
                    }
  });
+// second ajax call
+    $.ajax({
+                 "dataType":'json',
+                 "contentType": "application/json",
+                 "type": "POST",
+                 "url": BASE_PATH + "/history/list",
+                 "data":JSON.stringify({queryParams2}),
+                 success: function(data) {
+         console.log("fll dta",data);
+        // console.log("power1",data.result.data.data[0].power);
+        var power=data.result.data.data;
+      
+        for(var j=0;j<=power.length-1;j++){
+          
+            consume.push(power[j].power);
+            
+        }
+        console.log("consume",consume);
+    //     if(data.status){
+    //         //  console.log(data);
+    //         var temp=data.result.data.data[0].temp;
+    //        console.log("temp",temp);
+    //                          tempChart();
+    //     }
+    //             
+   
+     console.log("energy",energy);
+     energyChart();
+                       },
+                       error:function(err){
+                         errorMsg("Something went wrong");
+                       }
+     });
  }
- //  speedChart();
-     function speedChart() {
+ //  tempChart();
+     function tempChart() {
 
-       var speedchart= echarts.init(document.getElementById('chart6'));
+       var tempchart= echarts.init(document.getElementById('chart6'));
      option = {
      series: [{
          type: 'gauge',
@@ -156,24 +193,25 @@ loadAllFunction();
              offsetCenter: [0, '0%'],
              valueAnimation: true,
              formatter: function (value) {
-                 return Math.round(value * 100) + 'c';
+                 return Math.round(value * 1) + 'c';
              },
              color: 'auto'
          },
          data: [{
-             value: 0.30,
+             value: temp,
              // name: 'hot'
             
          }]
      }]
    };
  
- speedchart.setOption(option, true);
+ tempchart.setOption(option, true);
  
      }
  
-     function tempChart() {   
- var energy=echarts.init(document.getElementById('energy'));
+//energyChart
+     function energyChart() {   
+  energy=echarts.init(document.getElementById('energy'));
      option = {
      
      // grid:{
@@ -183,7 +221,7 @@ loadAllFunction();
      xAxis: {
          type: 'category',
          boundaryGap: true,
-         data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+         data: ['Fill', 'Wash', 'Drain', 'Rinse', 'Finish'],
          show:true,
          splitLine:{//remove grid lines
        show:false
@@ -199,7 +237,7 @@ loadAllFunction();
  
      },
      series: [{
-         data: [82, 93, 90, 93, 130, 130, 120],
+         data:consume,   
          type: 'line',
          areaStyle: {},
          itemStyle: {normal: {color: 'pink'}},
