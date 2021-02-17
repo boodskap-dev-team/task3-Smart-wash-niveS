@@ -5,45 +5,73 @@ const  node_schedular=require('node-schedule');
 const  uniqueRandomArray=require('unique-random-array');
 const nestedProperty=require('nested-property');
 const random_item=require('random-item');
-var fabric;
-var wash="fill";
-let power=0;
+const percent=require('percent-value');
+const roundTo = require('round-to');
+const getCurrentTimestamp = require('get-current-timestamp');
 
+var fabric;
+var temp;
+var wash="";
+let power=0;
+var flag=0;
+var count_2=0;
+var wash_count=0;
+var wash_count1=0
+// var time=getCurrentTimestamp();
+// console.log(time);
 var stainType=uniqueRandomArray(["oil","grease","organic","muddy","ink","vinegar"]);
 var stain=stainType();
-var capacity=uniqueRandomArray(["min","medium","max"]);
-var load=capacity();
+var load=random.int(min = 0, max = 30);
+// var load=capacity();
 var energy=random.int(min = 0, max = 100);
+// setTimeout(function(){ console.log("cycle count ",flag); }, 7000);
+// setInterval(console.log("wash cycle"),6000);
+
 fabric=
   [
     {
       "name":"cotton",
-      "temp":30
+      "temp":80
    
     },
     {
       "name":"linen",
-      "temp":25
+      "temp":35
      
     },
     {
       "name":"Denim",
-      "temp":40
+      "temp":60
       
     },
     {
       "name":"Wool",
-      "temp":32
+      "temp":40
     
     },
     {
       "name":"Synthetic",
-      "temp":38
+      "temp":25
    
     },
     {
       "name":"beddings",
-      "temp":42
+      "temp":70
+      
+    },
+    {
+      "name":"delicates",
+      "temp":20
+      
+    },
+    {
+      "name":"dailywear",
+      "temp":70
+      
+    },
+    {
+      "name":"babycare",
+      "temp":50
       
     }
   ]
@@ -55,8 +83,9 @@ async function addfunction(){
   process1();
 }
 var count_1=0;
+var refill=0;
 function process1(){
-
+  refill++;
   let initialFillingCount = 0;
   const maxFillingCount = 2;
   const process = setInterval(filling, 1000);
@@ -64,14 +93,21 @@ function process1(){
       initialFillingCount++;
       wash="fill";
       power=random.int(min=0,max=5);
+      load=load++;
+      
       // console.log(`draning for the ${initialFillingCount} time`)
       
+      if(refill>=2){
+        wash="refill";
+        load=load--;
+      }
       if(initialFillingCount === maxFillingCount){
           clearInterval(process);
           process2();
       }
-     
+         
   }
+ 
  }
 
 
@@ -85,10 +121,12 @@ function process2(){
       initialFillingCount++;
       wash="wash";
       power=random.int(min=0,max=5);
+      load=load+3;
       // console.log(`draning for the ${initialFillingCount} time`)
       if(count_1==2)
       {
         wash="rinse";
+        load=load+30;
       }
       if(initialFillingCount === maxFillingCount){
           clearInterval(process);
@@ -97,28 +135,40 @@ function process2(){
   }
  }
 
- var count_2=0;
+ 
  function process3(){
 count_2++;
+flag++;
   let initialFillingCount = 0;
   const maxFillingCount = 2;
   const process = setInterval(filling, 1000);
+  
   function filling(){
       initialFillingCount++;
       wash="drain";
       power=random.int(min=0,max=5);
+      load=load--;
+
+       //wash cycle count
+      console.log("cycle count ",flag);
+    //  wash_count=flag;
+var wash_count=flag;
+
       // console.log(`draning for the ${initialFillingCount} time`)
       if(initialFillingCount === maxFillingCount){
           clearInterval(process);
-      
           process1();
       }
       if(count_2==2)
       {
        process4();
+       
       }
-      
+     
+       //wash cycle count
+      // console.log("cycle count ",flag);
   }
+   
  }
 
  function process4(){
@@ -130,6 +180,7 @@ count_2++;
       initialFillingCount++;
       wash="wash completed!!";
       power=random.int(min=0,max=5);
+      load=load-5;
       // console.log(`draning for the ${initialFillingCount} time`)
       if(initialFillingCount === maxFillingCount){
           clearInterval(process)
@@ -162,16 +213,23 @@ client.on('connect', () => {
  node=node_schedular.scheduleJob('*/1 * * * * *', function(){
    
   i++;
+// if(wash==="drain"){
+//   wash_count=
+// }
+wash_count1=percent(i).of(13)
+wash_count=roundTo.down(wash_count1, 2);
+console.log("wash_count",wash_count);
 payload = {
-  "temp":item.temp,
+  "temp":parseInt(item.temp),
   "load_size":load,
   "energy_consumption":energy,
   "cloth_type":item.name,
   "process":wash,
   "stain_type":stain,
-  "power":power
-  // "started_time":	1612937636665,
-  // "ended_time":1612937636670
+  "power":power,
+  "wash_count":wash_count
+  // "started_time":getCurrentTimestamp,
+  // "ended_time":getCurrentTimestamp
 }
 console.log("schedule count",i);
 console.log("payload",payload);

@@ -121,7 +121,7 @@ app.conf = conf;
 
 var server = require('http').Server(app);
 
-console.log('My Remote things Admin Server Node Listening on ' + conf['web']['port']);
+console.log('My Smart Washing Machine Admin Server Node Listening on ' + conf['web']['port']);
 
 server.listen(conf['web']['port']);
 

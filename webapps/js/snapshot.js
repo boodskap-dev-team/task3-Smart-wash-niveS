@@ -1,36 +1,52 @@
+// const percentValue = require("percent-value");
+
 var consume=[];  
+var SmartTable=null;
+var FilterTable=null;
 var smart_list = [];
-$(document).ready(function(){
-    console.log("ready")
-
-loadAllFunction();
-  mqttConnect();
-
-loadSmartWash();
-
-   })
-   var temp;
+var filter_list = [];
+var process_st;
+ var temp;
+var load;
+var final_temp=[];
+var final_load;
 var energy;
-  function loadAllFunction(){
-   // speedChart();
-   // tempChart();
+var percent1;
+// var status;
+var filter;
+var my_range;
+// var dataObj;
+var getvalue=[];
+var percentage;
 
-
-// $('#wash_table').DataTable();
-      loadStatusList();
- //range slider
- $(".js-range-slider").ionRangeSlider();
- 
- //timeout
- $("#poweron").click(function powerOn(){
-   $(this).show(function(){
-     $('.alt-1').countDown({
-         css_class: 'countdown-alt-1'
-     });
-     $("#power-icon").css('background','-webkit-linear-gradient(white,white)').css('-webkit-background-clip','text').css('-webkit-text-fill-color','transparent');
-   });
+$(document).ready(function(){
+console.log("ready")
+loadSmartWash();
+loadAllFunction();
+mqttConnect();
  })
-   
+
+// =========================== AJAX functions with charts============================
+// loadAllFunction();
+
+
+function loadAllFunction(){
+ loadStatusList();
+ 
+ $('.alt-1').countDown({
+             css_class: 'countdown-alt-1'
+         });
+
+ //timeout
+//  $("#poweron").click(function powerOn(){
+//    $(this).show(function(){
+//      $('.alt-1').countDown({
+//          css_class: 'countdown-alt-1'
+//      });
+//      $("#power-icon").css('background','-webkit-linear-gradient(white,white)').css('-webkit-background-clip','text').css('-webkit-text-fill-color','transparent');
+//    });
+//  })
+ 
  $("#pause_btn").click(function pause(){
    $(this).hide();
    $("#play_btn").show();
@@ -43,28 +59,51 @@ var energy;
  
  
  function loadStatusList(){
- var queryParams1={     
-      
-    "aggregation":{
-    "energy":{
-        "terms":{
-            "field":"temp"
+    var queryParams1 = {
+        query: {
+            "bool": {
+                "must": []
+               
+            }
         }
-    }
-}
+        // sort: [{ "created_ts": { "order": "asc" } }]
+    };
     
-   }
+
   var queryParams2={
              
     "aggregations": {
        "energy": {
           "terms": {
-             "field": "energy_consumption"
+             "field": "power"
           }
        }
     }
  }
-
+ var queryParams3={
+             
+    "aggregations": {
+       "process": {
+          "terms": {
+             "field": "process"
+          }
+       }
+    }
+ }
+ var queryParams4={
+    
+        "query": {
+        "bool" : {
+        "must" : {
+        "term" : { "cloth_type" : "cotton" }
+        },
+        "filter": {
+        "term" : { "stain_type" : "muddy" }
+        }
+        }
+        }    
+        
+ }
 //first ajax call
     $.ajax({
              "dataType":'json',
@@ -73,17 +112,16 @@ var energy;
              "url": BASE_PATH + "/status/list",
              "data":JSON.stringify({queryParams1}),
              success: function(data) {
-     console.log(data);
-//     if(data.status){
-//         //  console.log(data);
-//         var temp=data.result.data.data[0].temp;
-//        console.log("temp",temp);
-//                          tempChart();
-//     }
-//             
+    //  console.log(data);
+            
  temp=data.result.data.data[0].temp;  
- console.log(temp);
- tempChart();
+ load=data.result.data.data[0].load_size;
+ percentage=data.result.data.data[0].wash_count;
+//  console.log(final_temp);
+ console.log("load",load);
+ tempChart(temp);
+ rangeslider(load);
+ processChart(percentage);
                    },
                    error:function(err){
                      errorMsg("Something went wrong");
@@ -95,7 +133,7 @@ var energy;
                  "contentType": "application/json",
                  "type": "POST",
                  "url": BASE_PATH + "/history/list",
-                 "data":JSON.stringify({queryParams2}),
+                 "data":JSON.stringify({queryParams1}),
                  success: function(data) {
          console.log("fll dta",data);
         // console.log("power1",data.result.data.data[0].power);
@@ -104,7 +142,7 @@ var energy;
         for(var j=0;j<=power.length-1;j++){
           
             consume.push(power[j].power);
-            
+           
         }
         console.log("consume",consume);
     //     if(data.status){
@@ -122,43 +160,46 @@ var energy;
                          errorMsg("Something went wrong");
                        }
      });
+    //progress-status display
+$.ajax({
+                 "dataType":'json',
+                 "contentType": "application/json",
+                 "type": "POST",
+                 "url": BASE_PATH + "/status/list",
+                 "data":JSON.stringify({queryParams1}),
+                 success: function(data){
+        process_st=data.result.data.data[0].process;  
+        console.log("progress-status",process_st);
+        processStatus(process_st);
+           // loadProcessStatus();
+    }
+})
+//filter 
+$.ajax({
+                 "dataType":'json',
+                 "contentType": "application/json",
+                 "type": "POST",
+                 "url": BASE_PATH + "/history/list",
+                 "data":JSON.stringify({"query":queryParams4}),
+                 success: function(data) {
+         console.log("filter",data);
+        // console.log("power1",data.result.data.data[0].power);
+        //  filter=data.result.total;      
+        // console.log("filter",filter);            
+        // console.log("energy",energy);
+        
 
-    //table ajax call
-    $.ajax({
-                     "dataType":'json',
-                     "contentType": "application/json",
-                     "type": "POST",
-                     "url": BASE_PATH + "/history/list",
-                     "data":JSON.stringify({queryParams2}),
-                     success: function(data) {
-             console.log("fll dta",data);
-            // console.log("power1",data.result.data.data[0].power);
-            var power=data.result.data.data;
-          
-            for(var j=0;j<=power.length-1;j++){
-              
-                consume.push(power[j].power);
-                
-            }
-            console.log("consume",consume);
-        //     if(data.status){
-        //         //  console.log(data);
-        //         var temp=data.result.data.data[0].temp;
-        //        console.log("temp",temp);
-        //                          tempChart();
-        //     }
-        //             
-       
-         console.log("energy",energy);
-         energyChart();
-                           },
-                           error:function(err){
-                             errorMsg("Something went wrong");
-                           }
-         });
- }
- //  tempChart();
-     function tempChart() {
+     
+                       },
+                       error:function(err){
+                         errorMsg("Something went wrong");
+                       }
+     });
+    }
+
+// ==================================================================
+ //  tempChart() definition;
+     function tempChart(dataObj) {
 
        var tempchart= echarts.init(document.getElementById('chart6'));
      option = {
@@ -239,7 +280,7 @@ var energy;
              color: 'auto'
          },
          data: [{
-             value: temp,
+             value: dataObj,
              // name: 'hot'
             
          }]
@@ -249,8 +290,7 @@ var energy;
  tempchart.setOption(option, true);
  
      }
- 
-//energyChart
+ //energyChart() definition
      function energyChart() {   
   energy=echarts.init(document.getElementById('energy'));
      option = {
@@ -262,7 +302,7 @@ var energy;
      xAxis: {
          type: 'category',
          boundaryGap: true,
-         data: ['Fill', 'Wash', 'Drain', 'Rinse', 'Finish'],
+         data: ['Fill', 'Wash', 'Drain', 'Rinse'],
          show:true,
          splitLine:{//remove grid lines
        show:false
@@ -281,39 +321,155 @@ var energy;
          data:consume,   
          type: 'line',
          areaStyle: {},
-         itemStyle: {normal: {color: 'pink'}},
+         itemStyle: {normal: {color: 'violet'}},
      }]
  };
  energy.setOption(option, true);
      }
- // ==================== mqtt  ======================================
- function mqttListen(){
-   console.log("listening")
-  mqttSubscribe("/XLOYLUDCHY/log/mrule/#",0);
-  mqtt_client.onMessageArrived = function(message){
-  var topicName = message.destinationName;
- var parsedData = JSON.parse(message.payloadString);
- if(topicName === "/XLOYLUDCHY/log/mrule/1220"){
- if(parsedData.level === 'info'){
-   loadAllFunction();
- }
- }
- };
- }
+//processStatus
+function processStatus(Dataobj){
+    if(Dataobj=="wash completed!!"){
+        $("#process-status").html(Dataobj); 
+    }else{
+        var newText=Dataobj.concat("ing");
+        newText="Now"+" "+newText;
+        $("#process-status").html(newText);
+    }
+}
+//progress-chart
+function processChart(dataObj){
+    var status=echarts.init(document.getElementById('process-chart')); 
+    console.log("tada");
+    getvalue=[dataObj];
 
+option= {
+    title: {
+    text: getvalue+'%',
+    textStyle: {
+      color: '#28BCFE',
+      fontSize: 25
+    },
+    subtext: '',
+        subtextStyle: {
+            color: '#666666',
+            fontSize: 30
+        },
+	itemGap: 20,
+    left: 'center',
+    top: '43%'
+	},
+    // tooltip: {
+    //     formatter: function (params) {
+    //         return '<span style="color: #fff;">综合得分：'+ getvalue + '分</span>';
+    //     }
+    // },
+  angleAxis: {
+    max: 100,
+    clockwise: true, // 逆时针
+    // 隐藏刻度线
+    show: false
+  },
+  radiusAxis: {
+        type: 'category',
+        show: true,
+        axisLabel: {
+            show: false,
+        },
+        axisLine: {
+            show: false,
+
+        },
+        axisTick: {
+            show: false
+        },
+  },
+  polar: {
+    center: ['50%', '50%'],
+    radius: '100%' //图形大小
+  },
+  series: [{
+    type: 'bar',
+    data: getvalue,
+	showBackground: true,
+	backgroundStyle: {
+		color: '#BDEBFF',
+	},
+    coordinateSystem: 'polar',
+    roundCap: true,
+    barWidth: 10,
+    itemStyle: {
+        normal: {
+        opacity: 1,
+        color:  new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+            offset: 0,
+            color: '#25BFFF'
+          }, {
+            offset: 1,
+            color: '#5284DE'
+          }]),
+        shadowBlur: 5,
+        shadowColor: '#2A95F9',
+    }
+    },
+  }]
+};
+// status.clear();
+// console.log("hello");
+status.setOption(option, true);
+console.log("hello");
+}
+
+
+ // ==================== mqtt  ======================================
+ function mqttListen() {
+    mqttSubscribe("/" + DOMAIN_KEY + "/log/mrule/1220", 0);
+    mqtt_client.onMessageArrived = function(message) {
+        console.log("msg")
+        var parsedData = JSON.parse(message.payloadString);
+        if (parsedData.data.includes("_reload_")) {
+            console.log("connect")
+            var spited = parsedData.data.split("|")[1];
+
+            var result = JSON.parse(spited);
+
+             final_temp = result.temp;
+            final_load = result.load_size;
+            final_process = result.process;
+            percent1=result.wash_count;
+            rangeslider(final_load);
+                tempChart(final_temp);
+processStatus(final_process);
+processChart(percent1);
+
+            console.log("nai",final_load)
+            console.log('final_temp--------->>>',final_temp)
+            console.log('final_process--------->>>',final_process)
+            console.log('final_process--------->>>',percent)
+
+}}
+}
+
+// =================================================================================
 //table
 function loadSmartWash() {
-
     if (SmartTable) {
         SmartTable.destroy();
         $("#wash_table").html("");
     }
-
     var fields = [
         {
             mData: 'cloth_type',
-            sTitle: 'Device Name',
-            sWidth: '20%',
+            sTitle: 'Mode',
+            sWidth: '30%',
+            orderable: false,
+            mRender: function (data, type, row) {
+                return data;
+            }
+        },
+        {
+            mData: 'stain_type',
+            sTitle: 'Stain Type',
+            sWidth: '30%',
             orderable: false,
             mRender: function (data, type, row) {
                 return data;
@@ -331,7 +487,8 @@ function loadSmartWash() {
 
         {
             mData: 'created_ts',
-            sTitle: 'Created Time',
+            sTitle: 'Started Time',
+            sWidth: '30%',
             "className": 'sortingtable',
             mRender: function (data, type, row) {
                 return moment(data).format(DATE_TIME_FORMAT);
@@ -351,17 +508,20 @@ function loadSmartWash() {
     };
 
     smart_list = [];
-
+  
+   
     var tableOption = {
         fixedHeader: false,
         responsive: false,
-        paging: true,
+        paging:true,
+        binfo:true,
         searching: true,
-        bPaginate:false,
+        bPaginate:true,
+        "pagingType":"simple",
         aaSorting: [[0, 'desc']],
         "ordering": true,
-        iDisplayLength: 10,
-        lengthMenu: [[10, 50, 100], [10, 50, 100]],
+        iDisplayLength: 6,
+        lengthMenu: [[10, 50, 100],[10, 50, 100]],
         aoColumns: fields,
         "bProcessing": true,
         "language": {
@@ -371,6 +531,7 @@ function loadSmartWash() {
         },
         "bServerSide": true,
         "sAjaxSource": BASE_PATH+'/history/list',
+        
         "fnServerData": function (sSource, aoData, fnCallback, oSettings) {
 
 
@@ -378,11 +539,11 @@ function loadSmartWash() {
             queryParams.query['bool']['should'] = [];
             delete queryParams.query['bool']["minimum_should_match"];
 
-            var keyName = fields[oSettings.aaSorting[0][0]]
+            // var keyName = fields[oSettings.aaSorting[0][0]]
 
-            var sortingJson = {};
-            sortingJson[keyName['mData']] = { "order": oSettings.aaSorting[0][1] };
-            queryParams.sort = [sortingJson];
+            // var sortingJson = {};
+            // sortingJson[keyName['mData']] = { "order": oSettings.aaSorting[0][1] };
+            // queryParams.sort = [sortingJson];
 
             queryParams['size'] = oSettings._iDisplayLength;
             queryParams['from'] = oSettings._iDisplayStart;
@@ -409,34 +570,118 @@ function loadSmartWash() {
                         }
                     }
                 });
-            }
-
+            }      
+            console.log("ggavcg")      
             oSettings.jqXHR = $.ajax({
                 "dataType": 'json',
                 "contentType": 'application/json',
                 "type": "POST",
                 "url": sSource,
-                // "data": JSON.stringify({"query":queryParams}),
+                "data": JSON.stringify({"query":queryParams}),
                 success: function (data) {
-
                     console.log(data);
-
                     var resultData = data.result.data;
-
                     smart_list = resultData.data;
                     console.log("hjgf",smart_list)
-                    $(".totalCount").html(data.result.total)
-
                     resultData['draw'] = oSettings.iDraw;
                     fnCallback(resultData);
                 }
             });
         },
-        "initComplete": function (settings, json) {
-        }
+         
     };
 
     SmartTable = $("#wash_table").DataTable(tableOption);
 }
  
+// rangeslider();
+ //range slider
+function rangeslider(dataObj){
+    console.log("load!");
+   $(".js-range-slider").ionRangeSlider();
+     my_range = $(".js-range-slider").data("ionRangeSlider");
+    my_range.update({
+        from: dataObj,
+        // to: 10
+    });
+    
+      console.log("load!!!")
+}
+
+
+
+// =========================================washing machine======================
+// VARIABLES ―――――――――――――――――――――――――
+
+const washSpeed = 600; // If changed, need to be updated in the CSS as well
+const washingMachine = document.getElementById('washingMachine');
+const screen = document.getElementById('controls');
+
+const status = {
+  opening: {
+    isActive: true,
+    statusClass: 'isOpen',
+    controller: document.getElementById('opening'),
+    controllerLabel: ["CLOSE", "OPEN"] },
+
+  content: {
+    isActive: true,
+    statusClass: 'isFilled',
+    controller: document.getElementById('content'),
+    controllerLabel: ["EMPTY", "FILL"] },
+
+  power: {
+    isActive: false,
+    statusClass: 'isWashing',
+    controller: document.getElementById('power'),
+    controllerLabel: ["STOP", "START"] } };
+
+
+
+
+// PLAYGROUND ―――――――――――――――――――――――――
+
+for (let action in status) {
+  const { statusClass, controller, controllerLabel } = status[action];
+
+  controller.addEventListener('click', function (event) {
+    const { isActive } = status[action];
+    washingMachine.classList.toggle(statusClass);
+    this.innerHTML = controllerLabel[isActive * 1];
+
+    if (action === "power" && !isActive) {// Slow start
+      washingMachine.classList.add(statusClass);
+      washingMachine.classList.add("isStarting");
+      setTimeout(() => {washingMachine.classList.remove("isStarting");}, washSpeed * 2);
+    }
+
+    status[action].isActive = !isActive;
+
+    setTimeout(function () {
+      updateMachine();
+    }, 100); // Timeout needed because of a bug on FF when updating innerHTML
+  });
+}
+
+function updateMachine() {
+  const { opening, content, power } = status;
+
+  // Update playground
+
+  opening.controller.disabled = power.isActive;
+  content.controller.disabled = !opening.isActive;
+  power.controller.disabled = opening.isActive || !content.isActive;
+
+  // Update screen text
+
+  if (power.isActive) {
+    screen.innerHTML = "💦";
+  } else if (!content.isActive) {
+    screen.innerHTML = "EMPTY";
+  } else if (opening.isActive) {
+    screen.innerHTML = "🙃";
+  } else {
+    screen.innerHTML = "READY";
+  }
+}
 
