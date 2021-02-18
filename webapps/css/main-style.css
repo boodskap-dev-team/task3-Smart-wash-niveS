@@ -736,8 +736,8 @@ ul.timeline > li:before {
   /* filter: blur(10px); */
 }
 
-/* =========================   washing machine ============================================== */
-/* ==========================//slick carousel===================================================== */
+/* ========================= ============================================== */
+/* =============================================================================== */
 @import url(https://fonts.googleapis.com/css?family=Roboto:700);
 
 /* body {
@@ -771,7 +771,7 @@ ul.timeline > li:before {
 /* Circles */
 .progressbar_step li:before {
   content: counter(step);
-  counter-increment: step;
+  counter-increment:step;
   width: 40px;
   height: 40px;
   border: 1px solid #2979FF;
@@ -1304,9 +1304,26 @@ table.dataTable thead tr {
   box-shadow: 0px 1px 0 0 rgba(0, 0, 0, 0.2);
 }
 
+/* ========================================================= */
+.blink {
 
+  animation: opacity 2s ease-in-out infinite;
+  opacity: 1;
+}
 
+@keyframes opacity {
+0% {
+  opacity: 1;
+}
 
+50% {
+  opacity: 0
+}
+
+100% {
+  opacity: 1;
+}
+}
 
 
 @media only screen and (max-width: 600px) {

@@ -18,9 +18,14 @@ var my_range;
 // var dataObj;
 var getvalue=[];
 var percentage;
+var f;
 
 $(document).ready(function(){
-console.log("ready")
+console.log("ready");
+
+
+
+
 loadSmartWash();
 loadAllFunction();
 mqttConnect();
@@ -171,6 +176,7 @@ $.ajax({
         process_st=data.result.data.data[0].process;  
         console.log("progress-status",process_st);
         processStatus(process_st);
+      
            // loadProcessStatus();
     }
 })
@@ -329,12 +335,17 @@ $.ajax({
 //processStatus
 function processStatus(Dataobj){
     if(Dataobj=="wash completed!!"){
-        $("#process-status").html(Dataobj); 
+        // $("#process-status").html(Dataobj).css('color','red');
+        $("#process-status").html('<div class="blink">'+Dataobj+'</div>').css('color','blue');
+
+        // $('#process-status').blink(100);
+        // blink("#process-status",2000);
     }else{
         var newText=Dataobj.concat("ing");
         newText="Now"+" "+newText;
         $("#process-status").html(newText);
     }
+  
 }
 //progress-chart
 function processChart(dataObj){
@@ -593,9 +604,7 @@ function loadSmartWash() {
 
     SmartTable = $("#wash_table").DataTable(tableOption);
 }
- 
-// rangeslider();
- //range slider
+//  ========================= //range slider======================================
 function rangeslider(dataObj){
     console.log("load!");
    $(".js-range-slider").ionRangeSlider();
@@ -607,9 +616,6 @@ function rangeslider(dataObj){
     
       console.log("load!!!")
 }
-
-
-
 // =========================================washing machine======================
 // VARIABLES ―――――――――――――――――――――――――
 
