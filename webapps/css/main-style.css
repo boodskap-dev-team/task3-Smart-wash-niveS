@@ -10,8 +10,13 @@ table.dataTable {
   box-shadow: 0px 0px 2px #88888821;
   padding: 0.5em 0.6em;
   color: #ffffff85;
-  font-size: 11px;
+  font-size: 15px;
   background: #88888821;
+}
+
+.fa-rounded-icon{
+  font-size:22px;
+  color:#ffffff8c;
 }
 
 .font-14 {
@@ -753,7 +758,7 @@ ul.timeline > li:before {
   margin-top: 10%;
 } */
 
-.container-progress ul li *::after
+/* .container-progress ul li *::after */
 
 .progressbar_step {
   counter-reset: step;
@@ -850,19 +855,27 @@ ul.timeline > li:before {
   background: -webkit-linear-gradient(#58259b, rgb(159, 113, 243));
 }
 
+.loader{
+margin-top: -20px;
+width: 70%;
+text-align: center;
+margin-left: 2%;
+}
+
 .header-round{
   border-radius: 0 15px 15px 0;
   border-style: none;
   background-color: white;
-  padding: 13px;
+  padding: 10px;
   margin-left: 0;
   top: -1px;
   margin-bottom: 1px;
   position: absolute;
   left: 0px;
   width:80%;
-  color:slateblue;
-  font-weight: 900;
+  color:#58259b;
+  font-weight: 600;
+  font-size:18px;
 }
 
 .header-round1{
@@ -1042,10 +1055,13 @@ padding: 3px 7px 3px 10px;
 
 table.dataTable thead tr {
   background:-webkit-linear-gradient(#58259b, rgb(159, 113, 243)) ;
+  color:#ffffff8c;
+  font-size:24px;
+  /* font-weight: 900; */
 }
 
 .dataTables_info,.dataTables_filter,.dataTables_length {
- 
+  font-size: 16px;
   color:blueviolet;
 }
 /* ========================== washing machine================================== */

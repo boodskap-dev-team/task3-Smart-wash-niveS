@@ -23,9 +23,6 @@ var f;
 $(document).ready(function(){
 console.log("ready");
 
-
-
-
 loadSmartWash();
 loadAllFunction();
 mqttConnect();
@@ -123,6 +120,9 @@ function loadAllFunction(){
  load=data.result.data.data[0].load_size;
  percentage=data.result.data.data[0].wash_count;
 //  console.log(final_temp);
+if(percentage===100){
+    console.log("25 %");
+}
  console.log("load",load);
  tempChart(temp);
  rangeslider(load);
@@ -337,9 +337,7 @@ function processStatus(Dataobj){
     if(Dataobj=="wash completed!!"){
         // $("#process-status").html(Dataobj).css('color','red');
         $("#process-status").html('<div class="blink">'+Dataobj+'</div>').css('color','blue');
-
-        // $('#process-status').blink(100);
-        // blink("#process-status",2000);
+      
     }else{
         var newText=Dataobj.concat("ing");
         newText="Now"+" "+newText;
@@ -471,7 +469,7 @@ function loadSmartWash() {
         {
             mData: 'cloth_type',
             sTitle: 'Mode',
-            sWidth: '30%',
+            sWidth: '15%',
             orderable: false,
             mRender: function (data, type, row) {
                 return data;
@@ -480,7 +478,7 @@ function loadSmartWash() {
         {
             mData: 'stain_type',
             sTitle: 'Stain Type',
-            sWidth: '30%',
+            sWidth: '15%',
             orderable: false,
             mRender: function (data, type, row) {
                 return data;
@@ -489,7 +487,7 @@ function loadSmartWash() {
         {
             mData: 'process',
             sTitle: 'Process',
-            sWidth: '20%',
+            sWidth: '15%',
             orderable: false,
             mRender: function (data, type, row) {
                 return data;
@@ -504,7 +502,16 @@ function loadSmartWash() {
             mRender: function (data, type, row) {
                 return moment(data).format(DATE_TIME_FORMAT);
             }
-        }       
+        },
+        {
+            mData: 'updated_ts',
+            sTitle: 'Ended Time',
+            sWidth: '30%',
+            "className": 'sortingtable',
+            mRender: function (data, type, row) {
+                return moment(data).format(DATE_TIME_FORMAT);
+            }
+        }        
        
     ];
 

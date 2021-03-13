@@ -93,7 +93,7 @@
             <div class="card-header new-bg-theme">
               <span class="header-round">Status</span>
            <div class="float-right">
-            <li class="d-inline-block"><span><i class="fa fa-line-chart fa-rounded" aria-hidden="true"></i></span></li>
+            <li class="d-inline-block"><span><i class="fa fa-line-chart fa-rounded-icon" aria-hidden="true"></i></span></li>
            </div>
             </div>
           
@@ -102,7 +102,7 @@
           <div class="card  rounded ml-0 mr-2" style="height:193px;z-index: 0;">
   
             <div class="container-progress">
-              <ul class="progressbar_step text-white" style="font-family:Roboto">
+              <ul class="progressbar_step" style="font-family:Roboto">
                 <li class="active">Wash 1</li>
                 <li>Wash 2</li>
                 <li>Wash 3</li>
@@ -113,10 +113,8 @@
           </div>
           
           <div id="process-chart" style="width:100%;height:100%;">
-          
           </div>
-          
-          
+            
           
           </div>
         </div>
@@ -134,22 +132,21 @@
           <div class="card-header new-bg-theme">
             <span class="header-round">Energy Consumption</span>
          <div class="float-right">
-          <li class="d-inline-block"><span><i class="fa fa-bolt fa-rounded" aria-hidden="true"></i></span></li>
+          <li class="d-inline-block"><span><i class="fa fa-bolt fa-rounded-icon" aria-hidden="true"></i></span></li>
          </div>
           </div>
           <div id="energy" style="width:100%;height:100%;" style="margin-left:3px"></div>
              </div>
                        
         </div>
-      
-     
+          
       
       <div class="col-4">
         <div class="card card-stats"style="background-color: white;">
           <div class="card-header new-bg-theme">
             <span class="header-round">Temperature</span>
             <div class="float-right">
-              <li class="d-inline-block"><span><i class="fa fa-thermometer-half fa-rounded" aria-hidden="true"></i></span></li>
+              <li class="d-inline-block"><span><i class="fa fa-thermometer-half fa-rounded-icon" aria-hidden="true"></i></span></li>
              </div>
           </div>
          
@@ -160,35 +157,27 @@
       <div class="col-4">
         <div class="card card-stats" style="background-color: white;">
           <div class="card-header new-bg-theme">
-            <span class="header-round"> Size</span>
+            <span class="header-round">Load Size</span>
             <div class="float-right">
-              <li class="d-inline-block"><span><i class="fa fa-shopping-basket fa-rounded" aria-hidden="true"></i></span></li>
+              <li class="d-inline-block"><span><i class="fa fa-shopping-basket fa-rounded-icon" aria-hidden="true"></i></span></li>
              </div>
           </div>
-          <div style="margin-top: 20%;">
+          <div class="loader">
           <input  type="text" class="js-range-slider"  name="my_range" value="" />
         </div>
         </div>
       </div>
-              
+          
       </div> 
-
 <!-- =============================== table====================================== -->
 <div class="row">
   <div class="col-12">
     <!-- //table -->
     <table class="table table-light table-bg" id="wash_table">
-     </table>
-      </div>
+    </table>
+    </div>
 </div>
-
-
-
 </div>
-
-
-
-
 <!-- ========================= script   ====================================== -->
 
 <script src="js/overlay.js"></script>
